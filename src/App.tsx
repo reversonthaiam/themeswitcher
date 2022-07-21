@@ -1,25 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Header from './components/Header'
+import GlobalStyle from './styles/global';
+import { ThemeProvider, DefaultTheme } from 'styled-components'
+import light from './styles/themes/light';
+import dark from './styles/themes/dark';
+import usePersistedState from './utils/usePersistedState';
 
 function App() {
+  const [theme, setTheme] = usePersistedState<DefaultTheme>('theme', light);
+
+  const toogleTheme = () => {
+    setTheme(theme.title === 'light' ? dark : light)
+  }
   return (
+    <ThemeProvider theme={theme}>
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <GlobalStyle />
+      <Header toggleTheme={toogleTheme}/>
     </div>
+    </ThemeProvider>
   );
 }
 
